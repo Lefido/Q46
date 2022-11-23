@@ -175,14 +175,19 @@ if (isset($_GET['modifier'])) {
 
     <div class="modification">
 
+        <h2>Modification personnage</h2>
+
         <form action="<?=$traitement ?>" method="get">
 
-            <h2>Modification personnage</h2>
-
             <?php $oldNom = $_GET['nom'] ?>
+
             <input type="text" name="oldname" value="<?=$oldNom ?>">
-            <input type="button" name="valider" value="Valider">
-            <input type="button" name="annuler" value="Annuler">
+
+            <div>
+                <input type="button" name="valider" value="Valider">
+                <input type="button" name="annuler" value="Annuler">
+            </div>
+
 
         </form>
 
