@@ -2,6 +2,7 @@
 
 require "dataBase.class.php";
 require "personnage.class.php";
+require "lede.class.php";
 
 $traitement = $_SERVER["PHP_SELF"];
 
@@ -127,18 +128,6 @@ if (isset($_GET['modifier'])) {
 
 }
 
-//if (isset($_GET['ajouter'])) {
-//
-//    $nom = $_GET['nom'];
-//    $personnage = new Personnage($nom);
-//    $joueurs[] = $personnage->nom;
-//
-//    var_dump($joueurs);
-//    $compteurJoueurs = count($joueurs);
-//    echo $compteurJoueurs;
-////    header("location:index.php");
-//
-//}
 
 if (isset($_GET['start'])) {
 
@@ -171,10 +160,87 @@ if (isset($_GET['nouveau']) && !empty($_GET['personnage'])) {
 
 function game($joueurs) {
 
+
+    echo "Définition de la force d'attaque<br>";
+
+
+    $indice = -1;
+    $indiceMemoire = 0;
+    $valeurMax = 0;
+
     foreach ($joueurs as $joueur) {
 
-        echo $joueur->get_nom() . " " . $joueur->get_attaque() . "<br>";
+        $indice++;
+
+        $lanceLeDe = new Lede(6);
+
+        $valeurduDe = $lanceLeDe->lanceLeDe();
+
+        $joueur->set_force_attaque($valeurduDe);
+
+        echo "<br>" . $joueur->get_nom() . " Valeur du dé lancé " . $joueur->get_attaque() . " en début de partie";
+
+        if ($valeurduDe > $valeurMax) {
+
+            $valeurMax = $valeurduDe;
+            $indiceMemoire = $indice;
+        }
 
     }
+
+    echo "<br><br>" . $joueurs[$indiceMemoire]->get_nom() . " commence la partie !<br>";
+
+
+    $id = $indiceMemoire;
+    $gaming = true;
+
+
+    while ($gaming) {
+
+        $lanceLeDe = new Lede(6);
+        $valeurduDe = $lanceLeDe->lanceLeDe();
+
+
+
+        if ($id == 0) {
+
+            echo "<br>" . $joueurs[$id]->get_nom() . " lance le dé, résultat : " . $valeurduDe;
+
+            $attaque = $joueurs[$id]->attaque($valeurduDe);
+            $joueurs[$id+1]->degat($attaque);
+
+            echo "<br>" . $joueurs[$id]->get_nom() . " attaque "  . $joueurs[$id+1]->get_nom() . " avec " . $attaque . " points<br>";
+            echo "<br>Il reste " . $joueurs[$id+1]->get_vie() . " point a " . $joueurs[$id+1]->get_nom() . "<br>";
+
+            if ($joueurs[$id+1]->get_vie() == 0) {
+              $gaming = false;
+            }
+
+        } else if ($id == 1) {
+
+//            echo "<br>Valeur du de lancé " . $valeurduDe;
+
+            echo "<br>" . $joueurs[$id]->get_nom() . " lance le dé, résultat : " . $valeurduDe;
+
+            $attaque = $joueurs[$id]->attaque($valeurduDe);
+            $joueurs[$id-1]->degat($attaque);
+
+            echo "<br>" . $joueurs[$id]->get_nom() . " attaque "  . $joueurs[$id-1]->get_nom() . " avec " . $attaque . " points<br>";
+            echo "<br>Il reste " . $joueurs[$id-1]->get_vie() . " point a " . $joueurs[$id-1]->get_nom() . "<br>";
+            if ($joueurs[$id-1]->get_vie() == 0) {
+                $gaming = false;
+            }
+
+        }
+
+        $id++;
+        if ($id > count($joueurs)) {
+            $id = 0;
+        }
+
+    }
+
+    echo "<br><br>Fin de la partie !";
+
 
 }

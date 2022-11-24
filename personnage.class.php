@@ -1,12 +1,12 @@
 <?php
 
-require "lede.class.php";
+
 
 class Personnage {
 
     private $nom;
     private $vie;
-    private $force_Attaque;
+    public $force_Attaque;
     private $point_Attaque;
 
     public function __construct($nom)
@@ -19,6 +19,12 @@ class Personnage {
 
     }
 
+    function set_force_attaque($force_attack) {
+
+        $this->force_Attaque = $force_attack;
+
+    }
+
     function attaque($valeurjetdeDe) {
 
         return $valeurjetdeDe * $this->force_Attaque;
@@ -28,6 +34,13 @@ class Personnage {
     function degat($valeurdegat) {
 
         $this->vie = $this->vie - $valeurdegat;
+        if ($this->vie < 0) {
+            $this->vie = 0;
+        }
+    }
+
+    function get_vie() {
+        return $this->vie;
     }
 
     function get_nom() {
@@ -40,14 +53,6 @@ class Personnage {
 
     }
 
-    function lancede() {
-
-        $lede = new lede();
-
-        return $lede;
-
-
-    }
 
 }
 

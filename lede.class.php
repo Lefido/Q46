@@ -3,19 +3,21 @@
 class Lede
 {
 
-    private $lede;
+    private $valeurMax;
 
-
-    public function __construct()
+    public function __construct($ValeurDeMax)
     {
 
-        $this->lede = rand(1, 6);
+        $this->valeurMax = $ValeurDeMax;
 
     }
 
-    function get_lede() {
-        return $this->lede;
+    function lanceLeDe() {
+
+        return rand(1, $this->valeurMax);
+
     }
+
 
 }
 
