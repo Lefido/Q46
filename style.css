@@ -12,17 +12,25 @@ body {
     width: 100%;
     height: 100vh;
     text-align: center;
-    background-color: gray;
+    /*background-color: gray;*/
     padding: 10px;
+    background: url("./assets/bg.jpg") no-repeat center / cover fixed;
+    position: relative;
 }
 
 .title {
     display: flex;
     align-items: center;
     margin: 5px auto;
-    background-color: white;
+    /*background-color: white;*/
+    background: rgb(255,0,0);
+    background: radial-gradient(circle, rgba(255,0,0,1) 0%, rgba(0,0,0,1) 100%);
     padding: 10px;
     border-radius: 25px;
+    background: rgb(255,0,0);
+    background: radial-gradient(circle, rgba(255,0,0,1) 0%, rgba(0,0,0,1) 100%);
+    color: white;
+    box-shadow: 0 0 5px 5px gray;
 }
 
 .title-img {
@@ -96,10 +104,24 @@ thead {
 /*}*/
 
 .tb1 {
-    background-color: lightgreen;
+
+    background: rgb(255,0,0);
+    background: radial-gradient(circle, rgba(255,0,0,1) 0%, rgba(0,0,0,1) 100%);
+    color: white;
+    box-shadow: 0 0 5px 5px gray;
+
 }
 .tb2 {
-    background-color: lightpink;
+
+    background: rgb(255,0,0);
+    background: radial-gradient(circle, rgba(255,0,0,1) 0%, rgba(0,0,0,1) 100%);
+    color: white;
+    box-shadow: 0 0 5px 5px gray;
+    color: white;
+}
+
+table {
+    color: black;
 }
 .tb3 {
     background-color: lightcoral;
@@ -166,6 +188,64 @@ thead {
     box-shadow: 2px 2px 4px 2px gray;
 
 }
+
+h2, h3, h4 {
+
+    color: white;
+    margin: auto;
+    text-shadow: 0px 0px 30px orange;
+
+
+}
+
+.text-game {
+
+    background: black;
+    width: 30%;
+    height: 100%;
+    border-radius: 2px;
+    border: 1px solid white;
+    margin: auto;
+    border-radius: 25px;
+    position: relative;
+    overflow: hidden;
+
+}
+
+.text-game h2 {
+    color: green;
+    font-size: 40px;
+}
+
+.text-game h3 {
+    color: yellow;
+}
+
+.text-effect {
+    width: 100%;
+    left: 50%;
+    bottom: 0%;
+    transform: translateX(-50%);
+    position: absolute;
+    animation: animate 12s linear;
+
+}
+
+@keyframes animate {
+
+
+    0%{
+        bottom: -300%;
+    }
+    100%{
+        bottom: 0%;
+    }
+
+}
+
+
+
+
 
 
 

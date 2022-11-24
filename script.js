@@ -66,7 +66,7 @@ new_partie.addEventListener('click', function (){
     })
 
     if(nb < 2) {
-        alert("Veuillez selectionner 2 personnages maximum")
+        alert("Veuillez selectionner 2 personnages")
     } else if(nb > 2) {
         alert("Trop de personnage selectionnés, Veuillez n'en selectionner que 2")
     } else {
@@ -76,7 +76,7 @@ new_partie.addEventListener('click', function (){
 })
 
 
-
+console.log(gaming)
 
 
 

@@ -112,7 +112,7 @@ $joueurs = []
 
     </div>
 
-    <script src="script.js"></script>
+<!--    <script src="script.js"></script>-->
 
     </body>
 
@@ -155,14 +155,19 @@ if (isset($_GET['nouveau']) && !empty($_GET['personnage'])) {
     echo "Nouveau";
     $nom = $_GET['personnage'];
     $database->nouveau($nom);
-    header("location:index.php?error=Personnage existant");
+//    header("location:index.php?error=Personnage existant");
+    header("location:index.php");
 }
 
 function game($joueurs) {
 
-    echo "--- Lancement de la partie ---<br>";
-    echo "<br>Définition de la force d'attaque<br>";
+    echo "<div class='text-game'>";
 
+    echo "<div class='text-effect'>";
+
+    echo "<h2>Lancement de la partie</h2>";
+
+    echo "<h3>Définition de la force d'attaque</h3><br>";
 
     $indice = -1;
     $indiceMemoire = 0;
@@ -178,7 +183,7 @@ function game($joueurs) {
 
         $joueur->set_force_attaque($valeurduDe);
 
-        echo "<br> Valeur du dé lancé par " . $joueur->get_nom() . " : " . $joueur->get_attaque() ;
+        echo "<h4> Valeur du dé lancé par " . $joueur->get_nom() . " : " . $joueur->get_attaque() . "</h4>" ;
 
         if ($valeurduDe > $valeurMax) {
 
@@ -188,59 +193,116 @@ function game($joueurs) {
 
     }
 
-    echo "<br><br>" . $joueurs[$indiceMemoire]->get_nom() . " commence la partie !<br>";
+    echo "<br><h3>" . $joueurs[$indiceMemoire]->get_nom() . " commence la partie !</h3>";
 
 
     $id = $indiceMemoire;
     $gaming = true;
 
+    $gamingJava = [];
 
     while ($gaming) {
 
         $lanceLeDe = new Lede(6);
         $valeurduDe = $lanceLeDe->lanceLeDe();
 
-
-
         if ($id == 0) {
 
-            echo "<br>" . $joueurs[$id]->get_nom() . " lance le dé, résultat : " . $valeurduDe;
+            echo "<br><h4>" . $joueurs[$id]->get_nom() . " lance le dé, résultat : " . $valeurduDe . "</h4>";
 
             $attaque = $joueurs[$id]->attaque($valeurduDe);
             $joueurs[$id+1]->degat($attaque);
 
-            echo "<br>" . $joueurs[$id]->get_nom() . " attaque "  . $joueurs[$id+1]->get_nom() . " avec " . $attaque . " points<br>";
-            echo "<br>Il reste " . $joueurs[$id+1]->get_vie() . " point a " . $joueurs[$id+1]->get_nom() . "<br>";
+            echo "<h4>" . $joueurs[$id]->get_nom() . " attaque "  . $joueurs[$id+1]->get_nom() . " avec " . $attaque . " points</h4>";
+            echo "<br><h4>Il reste " . $joueurs[$id+1]->get_vie() . " point a " . $joueurs[$id+1]->get_nom() . "</h4>";
 
             if ($joueurs[$id+1]->get_vie() == 0) {
               $gaming = false;
             }
 
+            $obj = (object) array
+            ('de' => $valeurduDe,
+                'attaquant' =>  $joueurs[$id]->get_nom(),
+                'valeurAttaque' => $attaque,
+                'attaque' => $joueurs[$id+1]->get_nom(),
+                'DegatAttaque' => $attaque
+                );
+
+            $gamingJava[] = $obj;
+
         } else if ($id == 1) {
 
 //            echo "<br>Valeur du de lancé " . $valeurduDe;
 
-            echo "<br>" . $joueurs[$id]->get_nom() . " lance le dé, résultat : " . $valeurduDe;
+            echo "<br><h4>" . $joueurs[$id]->get_nom() . " lance le dé, résultat : " . $valeurduDe . "</h4>";
 
             $attaque = $joueurs[$id]->attaque($valeurduDe);
             $joueurs[$id-1]->degat($attaque);
 
-            echo "<br>" . $joueurs[$id]->get_nom() . " attaque "  . $joueurs[$id-1]->get_nom() . " avec " . $attaque . " points<br>";
-            echo "<br>Il reste " . $joueurs[$id-1]->get_vie() . " point a " . $joueurs[$id-1]->get_nom() . "<br>";
+            echo "<h4>" . $joueurs[$id]->get_nom() . " attaque "  . $joueurs[$id-1]->get_nom() . " avec " . $attaque . " points<h4>";
+            echo "<br><h4>Il reste " . $joueurs[$id-1]->get_vie() . " point a " . $joueurs[$id-1]->get_nom() . "</h4>";
+
             if ($joueurs[$id-1]->get_vie() == 0) {
                 $gaming = false;
             }
 
+            $obj = (object) array
+            ('de' => $valeurduDe,
+                'attaquant' =>  $joueurs[$id]->get_nom(),
+                'valeurAttaque' => $attaque,
+                'attaque' => $joueurs[$id-1]->get_nom(),
+                'DegatAttaque' => $attaque
+            );
+
+            $gamingJava[] = $obj;
+
         }
+
+
 
         $id++;
         if ($id > count($joueurs)) {
             $id = 0;
         }
 
+
+
     }
 
-    echo "<br><br>Fin de la partie !";
+    echo "<br><h2>Fin de la partie !</h2>";
+
+//    var_dump($gamingJava);
+    $arr = 11;
+
+    ?>
+
+
+    <script>
+
+        //let gaming = <?//= $gamingJava ?>//;
+        let gaming = <?= json_encode($gamingJava) ?>;
+
+    </script>
+
+
+
+    <?php
+
+    echo "</div>";
+    echo "</div>";
 
 
 }
+
+function timer(){
+
+    $max = 5000;
+
+    for ($t = 0 ; i< $max; $t++) {
+
+    }
+
+}
+
+?>
+<script src="script.js"></script>
