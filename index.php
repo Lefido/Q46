@@ -5,9 +5,9 @@ require "personnage.class.php";
 
 $traitement = $_SERVER["PHP_SELF"];
 
+$joueurs = []
+
 ?>
-
-
 
     <!DOCTYPE html>
     <html lang="en">
@@ -71,7 +71,8 @@ $traitement = $_SERVER["PHP_SELF"];
             echo "<th>Point de Vie</th>";
             echo "<th>Force d'attaque</th>";
             echo "<th>Point d'attaque</th>";
-            echo "<th colspan='3'>Options</th>";
+            echo "<th>Selection</th>";
+            echo "<th colspan='2'>Options</th>";
             echo "</tr>";
 
             echo "</thead>";
@@ -84,80 +85,29 @@ $traitement = $_SERVER["PHP_SELF"];
                 echo "<form method='get' action='$traitement' class='form-1'>";
 
                 echo "<td><input type='hidden' name='id' value='{$personnage['id']}'>{$personnage['id']}</td>";
-                //                            echo "<td>{$personnage['nom']}</td>";
-                //                            echo "<td>{$personnage['vie']}</td>";
+
                 echo "<td><input class='name-perso' type='hidden' name='nom' value='{$personnage['nom']}'>{$personnage['nom']}</td>";
                 echo "<td>{$personnage['vie']}</td>";
                 echo "<td>{$personnage['force_attaque']}</td>";
                 echo "<td>{$personnage['point_attaque']}</td>";
 
+                echo "<td><input type='checkbox' name='ajouter[]' value='{$personnage['nom']}' class='check-perso'></td>";
                 echo "<td><input type='button' name='modifier' value='Modifier'class='modif-perso'></td>";
-                echo "<td><input type='button' name='ajouter' value='Ajouter à la partie' ></td>";
                 echo "<td><input type='button' name='supprimer' value='Supprimer le personnage' class='red supp-perso'></td>";
-                echo "</form>";
+
             }
 
             echo "</tr>";
 
             echo "</tbody>";
 
-            echo "</table>";
 
+            echo "</table>";
+            echo "<input class='options lancer-partie' name='start' type='button' value='LANCER LA PARTIE !'>";
+            echo "</form>";
             ?>
 
         </div>
-
-        <div class="personnages tb3">
-
-            <h2>Personnages sélectionnés pour la partie</h2>
-
-            <?php
-
-            $database = new Database("localhost", "root", "q46_fg", "");
-            $database->connect();
-            $database->prepReq("SELECT * FROM personnages");
-            $personnages = $database->fetchData();
-
-            echo "<table>";
-
-            echo "<thead>";
-
-            echo "<tr>";
-            echo "<th>ID</th>";
-            echo "<th>Nom</th>";
-            echo "<th>Point de Vie</th>";
-            echo "<th>Force d'attaque</th>";
-            echo "<th>Point d'attaque</th>";
-            echo "<th>Options</th>";
-            echo "</tr>";
-
-            echo "</thead>";
-
-            echo "<tbody>";
-
-            foreach ($personnages as $personnage) {
-
-                echo "<tr>";
-
-                echo "<td>{$personnage['id']}</td>";
-                echo "<td>{$personnage['nom']}</td>";
-                echo "<td>{$personnage['vie']}</td>";
-                echo "<td>{$personnage['force_attaque']}</td>";
-                echo "<td>{$personnage['point_attaque']}</td>";
-                echo "<td><input class='remove' name='retirer' value='Retirer de la partie'></td>";
-            }
-
-            echo "</tr>";
-
-            echo "</tbody>";
-
-            echo "</table>";
-
-            ?>
-
-        </div>
-
-        <button class="options">LANCER LA PARTIE !</button>
 
     </div>
 
@@ -177,8 +127,32 @@ if (isset($_GET['modifier'])) {
 
 }
 
-if (isset($_GET['ajouter'])) {
-    echo "ajouter";
+//if (isset($_GET['ajouter'])) {
+//
+//    $nom = $_GET['nom'];
+//    $personnage = new Personnage($nom);
+//    $joueurs[] = $personnage->nom;
+//
+//    var_dump($joueurs);
+//    $compteurJoueurs = count($joueurs);
+//    echo $compteurJoueurs;
+////    header("location:index.php");
+//
+//}
+
+if (isset($_GET['start'])) {
+
+    $joueurs = array();
+
+    foreach($_GET['ajouter'] as $nom) {
+
+        $personnage = new Personnage($nom);
+        $joueurs[] = $personnage;
+//        echo "$nom<br>";
+    }
+
+    game($joueurs);
+
 }
 
 if (isset($_GET['supprimer'])) {
@@ -192,6 +166,15 @@ if (isset($_GET['nouveau']) && !empty($_GET['personnage'])) {
     echo "Nouveau";
     $nom = $_GET['personnage'];
     $database->nouveau($nom);
-
     header("location:index.php?error=Personnage existant");
+}
+
+function game($joueurs) {
+
+    foreach ($joueurs as $joueur) {
+
+        echo $joueur->get_nom() . " " . $joueur->get_attaque() . "<br>";
+
+    }
+
 }

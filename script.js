@@ -28,14 +28,12 @@ modif_personnage.forEach((personnage,id) => {
 
         console.log(personnage);
 
-
-
         let list_personnage = document.querySelectorAll('.name-perso')
         // console.log(list_personnage[id].value);
         //
         let name = list_personnage[id].value;
 
-        let confirm = window.prompt('Modifier le personnage ', name);
+        let confirm = window.prompt('Modifier le nom du personnage ', name);
 
         if (confirm) {
             console.log( list_personnage[id]);
@@ -51,6 +49,35 @@ modif_personnage.forEach((personnage,id) => {
     })
 
 })
+
+const new_partie = document.querySelector(".lancer-partie")
+
+new_partie.addEventListener('click', function (){
+
+    let nb = 0;
+    const liste_check = document.querySelectorAll('.check-perso')
+
+    liste_check.forEach((check, id) => {
+
+        if (check.checked) {
+            nb++
+        }
+
+    })
+
+    if(nb < 2) {
+        alert("Veuillez selectionner 2 personnages maximum")
+    } else if(nb > 2) {
+        alert("Trop de personnage selectionnés, Veuillez n'en selectionner que 2")
+    } else {
+        new_partie.type = "submit";
+    }
+
+})
+
+
+
+
 
 
 
