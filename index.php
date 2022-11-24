@@ -160,8 +160,8 @@ if (isset($_GET['nouveau']) && !empty($_GET['personnage'])) {
 
 function game($joueurs) {
 
-
-    echo "Définition de la force d'attaque<br>";
+    echo "--- Lancement de la partie ---<br>";
+    echo "<br>Définition de la force d'attaque<br>";
 
 
     $indice = -1;
@@ -178,7 +178,7 @@ function game($joueurs) {
 
         $joueur->set_force_attaque($valeurduDe);
 
-        echo "<br>" . $joueur->get_nom() . " Valeur du dé lancé " . $joueur->get_attaque() . " en début de partie";
+        echo "<br> Valeur du dé lancé par " . $joueur->get_nom() . " : " . $joueur->get_attaque() ;
 
         if ($valeurduDe > $valeurMax) {
 
