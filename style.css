@@ -14,8 +14,9 @@ body {
     text-align: center;
     /*background-color: gray;*/
     padding: 10px;
-    background: url("./assets/bg.jpg") no-repeat center / cover fixed;
+    background: url("./assets/bg2.jpg") no-repeat center / cover fixed ;
     position: relative;
+    overflow: hidden;
 }
 
 .title {
@@ -229,6 +230,8 @@ h2, h3, h4 {
     position: absolute;
     animation: animate 12s linear;
 
+
+
 }
 
 @keyframes animate {
@@ -239,6 +242,19 @@ h2, h3, h4 {
     }
     100%{
         bottom: 0%;
+    }
+
+}
+
+.de {
+
+    animation: tourn 1s linear infinite;
+}
+
+@keyframes tourn {
+
+    100%{
+        rotate: 2turn;
     }
 
 }
